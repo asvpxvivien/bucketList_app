@@ -15,6 +15,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Mainscreen());
+    return MaterialApp(
+      theme: ThemeData.light(useMaterial3: true),
+      home: Mainscreen(),
+    );
   }
 }
