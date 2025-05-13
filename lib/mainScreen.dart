@@ -9,7 +9,14 @@ class Mainscreen extends StatefulWidget {
 }
 
 class _MainscreenState extends State<Mainscreen> {
-  void getData() {}
+  Future<void> getData() async {
+    // Get data from the API
+
+    Response response = await Dio().get(
+      "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist.json",
+    );
+    print(response.data);
+  }
 
   @override
   Widget build(BuildContext context) {
