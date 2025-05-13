@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key});
@@ -8,11 +9,13 @@ class Mainscreen extends StatefulWidget {
 }
 
 class _MainscreenState extends State<Mainscreen> {
+  void getData() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Bucket List")),
-      body: ElevatedButton(onPressed: () {}, child: Text("Get data")),
+      body: ElevatedButton(onPressed: getData, child: Text("Get data")),
     );
   }
 }
