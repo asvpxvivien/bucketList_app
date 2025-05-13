@@ -10,6 +10,9 @@ class Mainscreen extends StatefulWidget {
 class _MainscreenState extends State<Mainscreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(appBar: AppBar(title: Text("Bucket List")));
+    return Scaffold(
+      appBar: AppBar(title: Text("Bucket List")),
+      body: ElevatedButton(onPressed: () {}, child: Text("Get data")),
+    );
   }
 }
