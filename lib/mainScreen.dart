@@ -12,6 +12,13 @@ class _MainscreenState extends State<Mainscreen> {
   Future<void> getData() async {
     // Get data from the API
 
+    // Handle errors with thid syntaxe (Just a informative comment)
+    // try{
+
+    // } catch (e){
+    //print() the message you want to show when we got errors
+    // }
+
     Response response = await Dio().get(
       "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist.json",
     );
