@@ -9,27 +9,58 @@ class Mainscreen extends StatefulWidget {
 }
 
 class _MainscreenState extends State<Mainscreen> {
+  List<dynamic> bucketlistData = [];
   Future<void> getData() async {
-    // Get data from the API
+    try {
+      Response response = await Dio().get(
+        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist.json",
+      );
 
-    // Handle errors with thid syntaxe (Just a informative comment)
-    // try{
-
-    // } catch (e){
-    //print() the message you want to show when we got errors
-    // }
-
-    Response response = await Dio().get(
-      "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist.json",
-    );
-    print(response.data);
+      bucketlistData = response.data;
+      setState(() {});
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Cannot connect to the server Try after few seconds"),
+          );
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Bucket List")),
-      body: ElevatedButton(onPressed: getData, child: Text("Get data")),
+      body: Column(
+        children: [
+          ElevatedButton(onPressed: getData, child: Text("Get data")),
+          Expanded(
+            child: ListView.builder(
+              itemCount: bucketlistData.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(
+                        bucketlistData[index]['image'] ?? "",
+                      ),
+                    ),
+                    title: Text(bucketlistData[index]['item'] ?? ""),
+                    trailing: Text(
+                      bucketlistData[index]['cost'].toString() ?? "",
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
