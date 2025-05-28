@@ -17,11 +17,14 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
       body: Column(
         children: [
           Container(
-            height: 200,
+            height: 300,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.red,
-              image: DecorationImage(image: NetworkImage(widget.image)),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(widget.image),
+              ),
             ),
           ),
         ],
