@@ -94,7 +94,8 @@ class _MainscreenState extends State<Mainscreen> {
                             MaterialPageRoute(
                               builder: (context) {
                                 return ViewItemScreen(
-                                  title: bucketlistData[index]['image'] ?? "",
+                                  title: bucketlistData[index]['item'] ?? "",
+                                  image: bucketlistData[index]['image'] ?? "",
                                 );
                               },
                             ),
