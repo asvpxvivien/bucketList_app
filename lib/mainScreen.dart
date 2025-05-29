@@ -31,14 +31,6 @@ class _MainscreenState extends State<Mainscreen> {
     } catch (e) {
       isLoading = false;
       setState(() {});
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Cannot connect to the server Try after few seconds"),
-          );
-        },
-      );
     }
   }
 
@@ -86,7 +78,18 @@ class _MainscreenState extends State<Mainscreen> {
             isLoading
                 ? Center(child: CircularProgressIndicator())
                 : isError
-                ? Text("Error")
+                ? Center(
+                  child: Column(
+                    children: [
+                      Icon(Icons.warning),
+                      Text("Error getting bucket list data"),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Try again"),
+                      ),
+                    ],
+                  ),
+                )
                 : ListView.builder(
                   itemCount: bucketlistData.length,
                   itemBuilder: (BuildContext context, int index) {
