@@ -13,9 +13,11 @@ class Mainscreen extends StatefulWidget {
 class _MainscreenState extends State<Mainscreen> {
   List<dynamic> bucketlistData = [];
   bool isLoading = false;
+  bool isError = false;
   Future<void> getData() async {
     setState(() {
       isLoading = true;
+      isError = false;
     });
     try {
       Response response = await Dio().get(
@@ -24,6 +26,7 @@ class _MainscreenState extends State<Mainscreen> {
 
       bucketlistData = response.data;
       isLoading = false;
+      isError = true;
       setState(() {});
     } catch (e) {
       isLoading = false;
@@ -82,6 +85,8 @@ class _MainscreenState extends State<Mainscreen> {
         child:
             isLoading
                 ? Center(child: CircularProgressIndicator())
+                : isError
+                ? Text("Error")
                 : ListView.builder(
                   itemCount: bucketlistData.length,
                   itemBuilder: (BuildContext context, int index) {
