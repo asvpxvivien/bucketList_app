@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 class ViewItemScreen extends StatefulWidget {
   String title;
   String image;
-  ViewItemScreen({super.key, required this.title, required this.image});
+  int index;
+  ViewItemScreen({
+    super.key,
+    required this.index,
+    required this.title,
+    required this.image,
+  });
 
   @override
   State<ViewItemScreen> createState() => _ViewItemScreenState();
@@ -17,6 +23,25 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
         actions: [
           PopupMenuButton(
             onSelected: (value) {
+              if (value == 1) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("Are you sure to delete?"),
+                      actions: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Cancel"),
+                        ),
+                        Text("Confirm"),
+                      ],
+                    );
+                  },
+                );
+              }
               print(value);
             },
             itemBuilder: (context) {
