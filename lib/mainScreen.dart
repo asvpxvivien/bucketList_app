@@ -24,7 +24,11 @@ class _MainscreenState extends State<Mainscreen> {
         "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/",
       );
 
-      bucketlistData = response.data;
+      if (response.data is List) {
+        bucketlistData = response.data;
+      } else {
+        bucketlistData = [];
+      }
       isLoading = false;
       isError = true;
       setState(() {});
@@ -126,6 +130,8 @@ class _MainscreenState extends State<Mainscreen> {
                 ? Center(child: CircularProgressIndicator())
                 : isError
                 ? errorWidget(errorText: "Error connecting ...")
+                : bucketlistData.length < 1
+                ? Text("No Data on the bucket list")
                 : ListDataWidget(),
       ),
     );
