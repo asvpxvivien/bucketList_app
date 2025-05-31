@@ -21,7 +21,7 @@ class _MainscreenState extends State<Mainscreen> {
     });
     try {
       Response response = await Dio().get(
-        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist.json",
+        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/",
       );
 
       bucketlistData = response.data;
@@ -38,6 +38,53 @@ class _MainscreenState extends State<Mainscreen> {
   void initState() {
     getData();
     super.initState();
+  }
+
+  Widget errorWidget({required String errorText}) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.warning),
+          Text(errorText),
+          ElevatedButton(onPressed: getData, child: Text("Try again")),
+        ],
+      ),
+    );
+  }
+
+  Widget ListDataWidget() {
+    return ListView.builder(
+      itemCount: bucketlistData.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ViewItemScreen(
+                      title: bucketlistData[index]['item'] ?? "",
+                      image: bucketlistData[index]['image'] ?? "",
+                    );
+                  },
+                ),
+              );
+            },
+            leading: CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(
+                bucketlistData[index]['image'] ?? "",
+              ),
+            ),
+            title: Text(bucketlistData[index]['item'] ?? ""),
+            trailing: Text(bucketlistData[index]['cost'].toString() ?? ""),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -78,51 +125,8 @@ class _MainscreenState extends State<Mainscreen> {
             isLoading
                 ? Center(child: CircularProgressIndicator())
                 : isError
-                ? Center(
-                  child: Column(
-                    children: [
-                      Icon(Icons.warning),
-                      Text("Error getting bucket list data"),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Try again"),
-                      ),
-                    ],
-                  ),
-                )
-                : ListView.builder(
-                  itemCount: bucketlistData.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ViewItemScreen(
-                                  title: bucketlistData[index]['item'] ?? "",
-                                  image: bucketlistData[index]['image'] ?? "",
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage(
-                            bucketlistData[index]['image'] ?? "",
-                          ),
-                        ),
-                        title: Text(bucketlistData[index]['item'] ?? ""),
-                        trailing: Text(
-                          bucketlistData[index]['cost'].toString() ?? "",
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                ? errorWidget(errorText: "Error connecting ...")
+                : ListDataWidget(),
       ),
     );
   }
