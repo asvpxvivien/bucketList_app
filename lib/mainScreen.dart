@@ -19,9 +19,10 @@ class _MainscreenState extends State<Mainscreen> {
       isLoading = true;
       isError = false;
     });
+
     try {
       Response response = await Dio().get(
-        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/",
+        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist.json",
       );
 
       if (response.data is List) {
@@ -30,10 +31,11 @@ class _MainscreenState extends State<Mainscreen> {
         bucketlistData = [];
       }
       isLoading = false;
-      isError = true;
+      isError = false;
       setState(() {});
     } catch (e) {
       isLoading = false;
+      isError = true;
       setState(() {});
     }
   }
@@ -78,7 +80,9 @@ class _MainscreenState extends State<Mainscreen> {
                             );
                           },
                         ),
-                      );
+                      ).then((value) {
+                        getData();
+                      });
                     },
                     leading: CircleAvatar(
                       radius: 30,
