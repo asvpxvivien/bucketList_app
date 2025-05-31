@@ -63,29 +63,34 @@ class _MainscreenState extends State<Mainscreen> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return ViewItemScreen(
-                      title: bucketlistData[index]['item'] ?? "",
-                      image: bucketlistData[index]['image'] ?? "",
-                    );
-                  },
-                ),
-              );
-            },
-            leading: CircleAvatar(
-              radius: 30,
-              backgroundImage: NetworkImage(
-                bucketlistData[index]['image'] ?? "",
-              ),
-            ),
-            title: Text(bucketlistData[index]['item'] ?? ""),
-            trailing: Text(bucketlistData[index]['cost'].toString() ?? ""),
-          ),
+          child:
+              (bucketlistData[index] is Map)
+                  ? ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ViewItemScreen(
+                              title: bucketlistData[index]['item'] ?? "",
+                              image: bucketlistData[index]['image'] ?? "",
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(
+                        bucketlistData[index]?['image'] ?? "",
+                      ),
+                    ),
+                    title: Text(bucketlistData[index]?['item'] ?? ""),
+                    trailing: Text(
+                      bucketlistData[index]?['cost'].toString() ?? "",
+                    ),
+                  )
+                  : SizedBox(),
         );
       },
     );
@@ -131,7 +136,7 @@ class _MainscreenState extends State<Mainscreen> {
                 : isError
                 ? errorWidget(errorText: "Error connecting ...")
                 : bucketlistData.length < 1
-                ? Text("No Data on the bucket list")
+                ? Center(child: Text("No Data on the bucket list"))
                 : ListDataWidget(),
       ),
     );
