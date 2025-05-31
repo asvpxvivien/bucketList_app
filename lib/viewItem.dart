@@ -13,7 +13,22 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("${widget.title}")),
+      appBar: AppBar(
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) {
+              print(value);
+            },
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(value: 1, child: Text("Delete")),
+                PopupMenuItem(value: 2, child: Text("Mark as complete")),
+              ];
+            },
+          ),
+        ],
+        title: Text("${widget.title}"),
+      ),
       body: Column(
         children: [
           Container(
