@@ -23,7 +23,19 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
       Response response = await Dio().delete(
         "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist/${widget.index}.json",
       );
-      Navigator.pop(context);
+      Navigator.pop(context, "refresh");
+    } catch (e) {
+      print("Error");
+    }
+  }
+
+  Future<void> markAsComplete() async {
+    try {
+      Map<String, dynamic> data = {"completed": true};
+      Response response = await Dio().patch(
+        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist/${widget.index}.json",
+      );
+      Navigator.pop(context, "refresh");
     } catch (e) {
       print("Error");
     }
