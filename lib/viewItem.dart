@@ -34,6 +34,7 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
       Map<String, dynamic> data = {"completed": true};
       Response response = await Dio().patch(
         "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist/${widget.index}.json",
+        data: data,
       );
       Navigator.pop(context, "refresh");
     } catch (e) {
@@ -67,7 +68,9 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
                   },
                 );
               }
-              print(value);
+              if (value == 2) {
+                markAsComplete();
+              }
             },
             itemBuilder: (context) {
               return [
