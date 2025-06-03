@@ -81,7 +81,9 @@ class _MainscreenState extends State<Mainscreen> {
                           },
                         ),
                       ).then((value) {
-                        getData();
+                        if (value == "refresh") {
+                          getData();
+                        }
                       });
                     },
                     leading: CircleAvatar(
