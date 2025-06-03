@@ -68,9 +68,11 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
                   },
                 );
               }
+
               if (value == 2) {
                 markAsComplete();
               }
+              print(value);
             },
             itemBuilder: (context) {
               return [
