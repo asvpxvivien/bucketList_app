@@ -86,7 +86,6 @@ class _ViewItemScreenState extends State<ViewItemScreen> {
       ),
       body: Column(
         children: [
-          Text(widget.index.toString()),
           Container(
             height: 300,
             width: double.infinity,
