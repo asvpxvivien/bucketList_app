@@ -60,47 +60,55 @@ class _MainscreenState extends State<Mainscreen> {
   }
 
   Widget ListDataWidget() {
-    return ListView.builder(
-      itemCount: bucketlistData.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child:
-              (bucketlistData[index] is Map)
-                  ? ListTile(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ViewItemScreen(
-                              index: index,
-                              title: bucketlistData[index]['item'] ?? "",
-                              image: bucketlistData[index]['image'] ?? "",
-                            );
-                          },
+    List<dynamic> filteredList =
+        bucketlistData
+            .where((element) => !(element?["completed"] ?? false))
+            .toList();
+
+    return filteredList.length < 1
+        ? Center(child: Text("No data on the bucket list"))
+        : ListView.builder(
+          itemCount: bucketlistData.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+                  (bucketlistData[index] is Map &&
+                          (!(bucketlistData[index]?["completed"] ?? false)))
+                      ? ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ViewItemScreen(
+                                  index: index,
+                                  title: bucketlistData[index]['item'] ?? "",
+                                  image: bucketlistData[index]['image'] ?? "",
+                                );
+                              },
+                            ),
+                          ).then((value) {
+                            if (value == "refresh") {
+                              getData();
+                            }
+                          });
+                        },
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(
+                            bucketlistData[index]?['image'] ?? "",
+                          ),
                         ),
-                      ).then((value) {
-                        if (value == "refresh") {
-                          getData();
-                        }
-                      });
-                    },
-                    leading: CircleAvatar(
-                      radius: 30,
-                      backgroundImage: NetworkImage(
-                        bucketlistData[index]?['image'] ?? "",
-                      ),
-                    ),
-                    title: Text(bucketlistData[index]?['item'] ?? ""),
-                    trailing: Text(
-                      bucketlistData[index]?['cost'].toString() ?? "",
-                    ),
-                  )
-                  : SizedBox(),
+                        title: Text(bucketlistData[index]?['item'] ?? ""),
+                        trailing: Text(
+                          bucketlistData[index]?['cost'].toString() ?? "",
+                        ),
+                      )
+                      : SizedBox(),
+            );
+          },
         );
-      },
-    );
   }
 
   @override
@@ -142,8 +150,6 @@ class _MainscreenState extends State<Mainscreen> {
                 ? Center(child: CircularProgressIndicator())
                 : isError
                 ? errorWidget(errorText: "Error connecting ...")
-                : bucketlistData.length < 1
-                ? Center(child: Text("No Data on the bucket list"))
                 : ListDataWidget(),
       ),
     );
