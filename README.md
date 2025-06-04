@@ -16,7 +16,7 @@ A modern and intuitive Flutter app to manage your bucket list. Users can add goa
 
 ## 🎞 Demo GIF 
 <p align="center">
-  <img src="assets/bucket_list_app.gif" alt="Demo" />
+  <img src="assets/bucket_list_app.gif" alt="Demo" width="300"/>
 </p>
 
 ## 🧱 Project Structure
