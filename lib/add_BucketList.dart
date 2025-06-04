@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class AddBucketListScreen extends StatefulWidget {
+  int newIndex;
   const AddBucketListScreen({super.key});
 
   @override
@@ -8,9 +10,16 @@ class AddBucketListScreen extends StatefulWidget {
 }
 
 class _AddBucketListScreenState extends State<AddBucketListScreen> {
-  Future<void> markAsComplete() async {
+  Future<void> addData() async {
     try {
-      Map<String, dynamic> data = {"completed": true};
+      Map<String, dynamic> data = {
+        "item": "visit Nepal",
+        "cost": 2000,
+        "image":
+            "https://www.travels2nepal.com/images/tour/nepal-tour-packages/nepal-tour-packages1.jpg",
+        "completed": false,
+      };
+
       Response response = await Dio().patch(
         "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist/${widget.index}.json",
         data: data,
