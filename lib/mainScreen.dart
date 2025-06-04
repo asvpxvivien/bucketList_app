@@ -70,43 +70,42 @@ class _MainscreenState extends State<Mainscreen> {
         : ListView.builder(
           itemCount: bucketlistData.length,
           itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
-                  (bucketlistData[index] is Map &&
-                          (!(bucketlistData[index]?["completed"] ?? false)))
-                      ? ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ViewItemScreen(
-                                  index: index,
-                                  title: bucketlistData[index]['item'] ?? "",
-                                  image: bucketlistData[index]['image'] ?? "",
-                                );
-                              },
-                            ),
-                          ).then((value) {
-                            if (value == "refresh") {
-                              getData();
-                            }
-                          });
-                        },
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage(
-                            bucketlistData[index]?['image'] ?? "",
-                          ),
+            return (bucketlistData[index] is Map &&
+                    (!(bucketlistData[index]?["completed"] ?? false)))
+                ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ViewItemScreen(
+                              index: index,
+                              title: bucketlistData[index]['item'] ?? "",
+                              image: bucketlistData[index]['image'] ?? "",
+                            );
+                          },
                         ),
-                        title: Text(bucketlistData[index]?['item'] ?? ""),
-                        trailing: Text(
-                          bucketlistData[index]?['cost'].toString() ?? "",
-                        ),
-                      )
-                      : SizedBox(),
-            );
+                      ).then((value) {
+                        if (value == "refresh") {
+                          getData();
+                        }
+                      });
+                    },
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(
+                        bucketlistData[index]?['image'] ?? "",
+                      ),
+                    ),
+                    title: Text(bucketlistData[index]?['item'] ?? ""),
+                    trailing: Text(
+                      bucketlistData[index]?['cost'].toString() ?? "",
+                    ),
+                  ),
+                )
+                : SizedBox();
           },
         );
   }

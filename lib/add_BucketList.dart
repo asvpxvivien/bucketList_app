@@ -10,13 +10,15 @@ class AddBucketListScreen extends StatefulWidget {
 }
 
 class _AddBucketListScreenState extends State<AddBucketListScreen> {
+  TextEditingController itemText = TextEditingController();
+  TextEditingController costText = TextEditingController();
+  TextEditingController imageURLText = TextEditingController();
   Future<void> addData() async {
     try {
       Map<String, dynamic> data = {
-        "item": "visit Nepal",
-        "cost": 2000,
-        "image":
-            "https://www.travels2nepal.com/images/tour/nepal-tour-packages/nepal-tour-packages1.jpg",
+        "item": "itemText.text",
+        "cost": costText.text,
+        "image": imageURLText.text,
         "completed": false,
       };
 
@@ -34,7 +36,38 @@ class _AddBucketListScreenState extends State<AddBucketListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Add Bucket List")),
-      body: ElevatedButton(onPressed: addData, child: Text("Add data")),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: itemText,
+              decoration: InputDecoration(label: Text("Item")),
+            ),
+            SizedBox(height: 30),
+            TextField(
+              controller: costText,
+              decoration: InputDecoration(label: Text("Estimated cost")),
+            ),
+            SizedBox(height: 30),
+            TextField(
+              controller: imageURLText,
+              decoration: InputDecoration(label: Text("Image URL")),
+            ),
+            SizedBox(height: 30),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: addData,
+                    child: Text("Add Item"),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
