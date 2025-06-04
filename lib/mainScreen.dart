@@ -120,10 +120,14 @@ class _MainscreenState extends State<Mainscreen> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return AddBucketListScreen();
+                return AddBucketListScreen(newIndex: bucketlistData.length);
               },
             ),
-          );
+          ).then((value) {
+            if (value == "refresh") {
+              getData();
+            }
+          });
         },
         shape: CircleBorder(),
         child: Icon(Icons.add),

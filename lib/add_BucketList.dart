@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class AddBucketListScreen extends StatefulWidget {
   int newIndex;
-  const AddBucketListScreen({super.key});
+  AddBucketListScreen({super.key, required this.newIndex});
 
   @override
   State<AddBucketListScreen> createState() => _AddBucketListScreenState();
@@ -21,7 +21,7 @@ class _AddBucketListScreenState extends State<AddBucketListScreen> {
       };
 
       Response response = await Dio().patch(
-        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist/${widget.index}.json",
+        "https://flutterapitest123-e4e6a-default-rtdb.firebaseio.com/bucketlist/${widget.newIndex}.json",
         data: data,
       );
       Navigator.pop(context, "refresh");
@@ -34,7 +34,7 @@ class _AddBucketListScreenState extends State<AddBucketListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Add Bucket List")),
-      body: ElevatedButton(onPressed: () {}, child: Text("Add data")),
+      body: ElevatedButton(onPressed: addData, child: Text("Add data")),
     );
   }
 }
